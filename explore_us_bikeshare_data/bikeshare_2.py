@@ -17,13 +17,14 @@ def get_filters():
     """
     print('Hello! Let\'s explore some US bikeshare data!')
     # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
-
+    city = input('Enter name of city: ').strip()
 
     # get user input for month (all, january, february, ... , june)
+    month = input('Enter month. You can enter and number or name of month: ').strip()
 
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
-
+    day = input('Enter a day in a week: ').strip()
 
     print('-'*40)
     return city, month, day
@@ -40,9 +41,13 @@ def load_data(city, month, day):
     Returns:
         df - Pandas DataFrame containing city data filtered by month and day
     """
+    city_file = CITY_DATA[city]
+    read_city_file = pd.read_csv(city_file)
+    arr =  pd.array(data=read_city_file,)
+    for w in read_city_file:
+        print(w)
 
-
-    return df
+    # return df
 
 
 def time_stats(df):
@@ -119,18 +124,18 @@ def user_stats(df):
 
 
 def main():
-    while True:
-        city, month, day = get_filters()
-        df = load_data(city, month, day)
+    # while True:
+    city, month, day = get_filters()
+    df = load_data(city, month, day)
 
-        time_stats(df)
-        station_stats(df)
-        trip_duration_stats(df)
-        user_stats(df)
+        # time_stats(df)
+        # station_stats(df)
+        # trip_duration_stats(df)
+        # user_stats(df)
 
-        restart = input('\nWould you like to restart? Enter yes or no.\n')
-        if restart.lower() != 'yes':
-            break
+        # restart = input('\nWould you like to restart? Enter yes or no.\n')
+        # if restart.lower() != 'yes':
+        #     break
 
 
 if __name__ == "__main__":
