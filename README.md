@@ -1,2 +1,2 @@
 # Udacity Data Science Projects
-You can use it a guide only.
+You can use it as guide only.
