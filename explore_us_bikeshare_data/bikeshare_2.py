@@ -148,7 +148,8 @@ def get_filters():
                 try:
                     # We alert the user to enter a number or an integer between 0, 1, 2, 3, 4, 5, 6 or 7 for (all, monday, tuesday, ... sunday) respectively
                     print()
-                    int_day = int(input('Oops!!. There may be a typo in there. You use can enter 0, 1, 2, 3, 4, 5, 6 or 7 for (all, monday, tuesday, ... sunday) respectively:>> '))
+                    int_day = int(input('Oops!!. There may be a typo in there. \
+                        You use can enter 0, 1, 2, 3, 4, 5, 6 or 7 for (all, monday, tuesday, ... sunday) respectively:>> '))
                     # Check whether what the user entered is a number, may raise KeyError 
                     day = switch_to_number(int_day, 'day')
                     break
@@ -348,8 +349,8 @@ def user_view_raw_data(read_city):
             while True:
                 print()
                 view_raw_data = input('Would you like to view the next five raw data set from this city? Enter yes or no. >>')
-                if view_raw_data.lower() == 'yes':
-                    initial_view = initial_view + 5
+                if view_raw_data.lower() == 'yes' or view_raw_data.lower() == 'y':
+                    initial_view += 5
                     print(read_city.iloc[initial_view : initial_view + 5])
                 else:
                     return
