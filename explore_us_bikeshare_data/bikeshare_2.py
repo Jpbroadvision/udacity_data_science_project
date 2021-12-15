@@ -2,10 +2,16 @@ import time
 import pandas as pd
 import numpy as np
 
-CITY_DATA = {'chicago': 'chicago.csv',
-             'new york city': 'new_york_city.csv',
-             'washington': 'washington.csv'}
+CITY_DATA = {'chicago': 'explore_us_bikeshare_data/chicago.csv',
+             'new york city': 'explore_us_bikeshare_data/new_york_city.csv',
+             'washington': 'explore_us_bikeshare_data/washington.csv'}
 
+# All available city names
+CITIES_ONLY = ['chicago', 'new york city', 'washington']
+# All available months 
+MONTHS_ONLY = ['all', 'january', 'february', 'march', 'april', 'may', 'june']
+# all available days
+WEEK_DAYS_ONLY = ['all', 'monday', 'tuesday', 'wednesday','thursday', 'friday', 'saturday', 'sunday']
 
 def switch_to_number(provided_int, marker):
     """Uses this method when the user decides to provide an integer or a number instead of a string
@@ -52,27 +58,7 @@ def switch_to_number(provided_int, marker):
     selected_value = SELECTED_NAME[provided_int]
     return selected_value
 
-
-def check_input_availability(provided_value, marker):
-    """Check for whether what the user entered is available
     
-    Args:
-        provided_value (str): The user input value
-        marker (str): The marker that represents (city, month, day). This is used to switch between selections
-    Return: A bool of True or False
-    """
-    
-    # Switches to this condition if the user is providing a number for city
-    if marker == "city":
-        return provided_value in ('chicago', 'new york city', 'washington')
-    # Switches to this condition if the user is providing a number for month
-    elif marker == "month":
-        return provided_value in ('all', 'january', 'february', 'march', 'april', 'may', 'june')
-    # Switches to this condition if the user is providing a number for day
-    elif marker == "day":
-        return provided_value in ('all', 'monday', 'tuesday', 'wednesday',
-                         'thursday', 'friday', 'saturday', 'sunday')
-
 def get_filters():
     """
     Asks user to specify a city, month, and day to analyze.
@@ -85,13 +71,11 @@ def get_filters():
     print('Hello! Let\'s explore some US bikeshare data!')
     # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
     while True:
-        marker = "city"
         try:
             print()
-            city = (input(
-                'Enter name of city (chicago, new york city, washington): ').strip()).lower()
+            city = (input('Enter name of city (chicago, new york city, washington):>> ').strip()).lower()
             # Get the name of the city the user entered and check whether it exist
-            response = check_input_availability(city, marker)
+            response = city in CITIES_ONLY
             # If the responses exist, then pass
             if response == True:
                 break
@@ -101,9 +85,9 @@ def get_filters():
                     # We alert the user to enter a number or an integer between 1, 2 or 3 respectively
                     print()
                     int_city = int(input(
-                    'Oops!!. There may be a typo in there. You can also enter numbers such as 1 for chicago, 2 for new york city, 3 for washington: '))
+                    'Oops!!. There may be a typo in there. You can also enter numbers such as 1 for chicago, 2 for new york city, 3 for washington:>> '))
                     # Check whether what the user entered is a number, may raise KeyError 
-                    city = switch_to_number(int_city, marker)
+                    city = switch_to_number(int_city, 'city')
                     break
                 except KeyError:
                     print()
@@ -119,13 +103,12 @@ def get_filters():
     print(f"GREAT, YOU SELECTED {city}")
         # get user input for month (all, january, february, ... , june)
     while True:
-        marker ="month"
         try:
             print()
             month = (
-                input('Enter a month (all, january, february, ... , june): ').strip()).lower()
+                input('Enter a month (all, january, february, ... , june):>> ').strip()).lower()
             # Get the name of the month the user entered and check whether it exist
-            response = check_input_availability(month, marker)
+            response = month in MONTHS_ONLY
             # If the responses exist, then pass
             if response == True:
                 break
@@ -135,9 +118,9 @@ def get_filters():
                     # We alert the user to enter a number or an integer between 0, 1, 2, 3, 4, 5 or 6 respectively
                     print()
                     int_month = int(input(
-                        'Oops!!. There may be a typo in there. You use can enter 0, 1, 2, 3, 4, 5 or 6 for (all, january, february, ... , june) respectively: '))
+                        'Oops!!. There may be a typo in there. You use can enter 0, 1, 2, 3, 4, 5 or 6 for (all, january, february, ... , june) respectively:>> '))
                     # Check whether what the user entered is a number, may raise KeyError 
-                    month = switch_to_number(int_month, marker)
+                    month = switch_to_number(int_month, 'month')
                     break
                 except KeyError:
                     print()
@@ -153,12 +136,10 @@ def get_filters():
         
 
     while True:
-        marker = "day"
         # get user input for day of week (all, monday, tuesday, ... sunday)
         try:
-            day = (input(
-                'Enter a day in a week (all, monday, tuesday, ... sunday): ').strip()).lower()
-            response = check_input_availability(day, marker)
+            day = (input('Enter a day in a week (all, monday, tuesday, ... sunday):>> ').strip()).lower()
+            response = day in WEEK_DAYS_ONLY
             # If the responses exist, then pass
             if response == True:
                 break
@@ -167,10 +148,10 @@ def get_filters():
                 try:
                     # We alert the user to enter a number or an integer between 0, 1, 2, 3, 4, 5, 6 or 7 for (all, monday, tuesday, ... sunday) respectively
                     print()
-                    int_day = int(input(
-                        'Oops!!. There may be a typo in there. You use can enter 0, 1, 2, 3, 4, 5, 6 or 7 for (all, monday, tuesday, ... sunday) respectively: '))
+                    int_day = int(input('Oops!!. There may be a typo in there. \
+                        You use can enter 0, 1, 2, 3, 4, 5, 6 or 7 for (all, monday, tuesday, ... sunday) respectively:>> '))
                     # Check whether what the user entered is a number, may raise KeyError 
-                    day = switch_to_number(int_day, marker)
+                    day = switch_to_number(int_day, 'day')
                     break
                 except KeyError:
                     print()
@@ -207,8 +188,9 @@ def load_data(city, month, day):
     # create a month column
     read_city['month'] = read_city['Start Time'].dt.month
     # create day of week coulmn
-    read_city['day_of_week'] = read_city['Start Time'].dt.day
-
+    read_city['day_of_week'] = read_city['Start Time'].dt.day_name()
+    # Create hour column
+    read_city['hour'] = read_city['Start Time'].dt.hour
     # filter by month if applicable
     if month != 'all':
         # use the index of the months list to get the corresponding int
@@ -226,82 +208,171 @@ def load_data(city, month, day):
     return read_city
 
 
-def time_stats(df):
-    """Displays statistics on the most frequent times of travel."""
+def time_stats(read_city):
+    """Displays statistics on the most frequent times of travel.
+    
+    Args:
+        (DataFrame) read_city - Pandas DataFrame containing city data with filters.
+    """
 
     print('\nCalculating The Most Frequent Times of Travel...\n')
     start_time = time.time()
 
     # display the most common month
-    print(df)
+    common_month = read_city['month'].mode()[0]
+    print()
+    print(f'\nBase on your Selections. The most common month of travel is: {MONTHS_ONLY[common_month].title()}')
 
     # display the most common day of week
-
+    common_day = read_city['day_of_week'].mode()[0]
+    print()
+    print(f'\nBase on your Selections. The most common day of the week used of travel is: {common_day}')
     # display the most common start hour
+    common_hour = read_city['hour'].mode()[0]
+    print()
+    print(f'\nBase on your Selections. The most common hour is: {common_hour}')
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
 
-def station_stats(df):
-    """Displays statistics on the most popular stations and trip."""
+def station_stats(read_city):
+    """ Displays statistics on the most popular stations and trip.
+
+    Args:
+        (DataFrame) read_city - Pandas DataFrame containing city data with filters.
+
+    """
 
     print('\nCalculating The Most Popular Stations and Trip...\n')
     start_time = time.time()
 
     # display most commonly used start station
-
+    common_use_start_station = read_city['Start Station'].mode()[0]
+    print()
+    print(f"The most commonly used start station from the given selections is:  {common_use_start_station}")
     # display most commonly used end station
-
+    common_use_end_station = read_city['End Station'].mode()[0]
+    print()
+    print(f"The most commonly used end station from the given fitered data is: {common_use_end_station}")
     # display most frequent combination of start station and end station trip
+    start_end_station = (read_city['Start Station'] + '||' + read_city['End Station']).mode()[0]
+    print()
+    print(f"The most frequent combination of start station and end station trip is :  {start_end_station.split('||')}")
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
 
-def trip_duration_stats(df):
-    """Displays statistics on the total and average trip duration."""
+def trip_duration_stats(read_city):
+    """Displays statistics on the total and average trip duration.
+    
+    Args:
+        (DataFrame) read_city - Pandas DataFrame containing city data with filters.
+    """
 
     print('\nCalculating Trip Duration...\n')
     start_time = time.time()
 
     # display total travel time
+    total_travel_time = read_city['Trip Duration'].sum()
+    print()
+    print(f"The total travel time selections is: {total_travel_time}")
 
     # display mean travel time
+    mean_travel_time = read_city['Trip Duration'].mean()
+    print()
+    print(f"The mean travel time selections is: {mean_travel_time}")
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
 
-def user_stats(df):
-    """Displays statistics on bikeshare users."""
+def user_stats(read_city, city):
+    """Displays statistics on bikeshare users.
+    
+    Args:
+        (DataFrame) read_city - Pandas DataFrame containing city data with filters.
+
+    """
 
     print('\nCalculating User Stats...\n')
     start_time = time.time()
 
     # Display counts of user types
-
+    count_user_types = read_city['User Type'].value_counts()
+    print()
+    print(f"The total counts of user types from selections is:\n{count_user_types}")
     # Display counts of gender
+    if 'Gender' in read_city.columns:
+        count_gender = read_city['Gender'].value_counts()
+        print()
+        print(f"The count of user gender from Selection is:\n{count_gender}")
+    else:
+        print()
+        print(f"The count of user gender from {city} city is not possible because it has no such column as 'Gender'. Skipping now...")
+
 
     # Display earliest, most recent, and most common year of birth
-
+    if 'Birth Year' in read_city.columns:
+        # Earliest year of birth
+        earliest_birth = read_city['Birth Year'].min()
+        print()
+        print(f"Earliest birth from Selection is: {earliest_birth}")
+        # Most recent year of birth
+        most_recent_birth = read_city['Birth Year'].max()
+        print()
+        print(f"Most recent birth from Selection is: {most_recent_birth}")
+        # Most common year of birth
+        most_common_birth = read_city['Birth Year'].mode()[0]
+        print()
+        print(f"Most common birth from Selection is: {most_common_birth}")
+    else:
+        print()
+        print(f"The count stats for Birth Year from {city} city is not possible because it has no such column as 'Birth Year'. Skipping now...")
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
+    print("D O N E")
 
+def user_view_raw_data(read_city):
+    """Allow users to view the raw data from the city file
+
+    Args:
+        (DataFrame) read_city - Pandas DataFrame containing city data with filters.
+    """
+    while True:
+        print()
+        view_raw_data = input('Would you like to view first five row of raw data? Enter yes or no.\n')
+        if view_raw_data.lower() == 'yes':
+            print(read_city.head())
+            initial_view = 0
+            while True:
+                print()
+                view_raw_data = input('Would you like to view the next five raw data set from this city? Enter yes or no. >>')
+                if view_raw_data.lower() == 'yes' or view_raw_data.lower() == 'y':
+                    initial_view += 5
+                    print(read_city.iloc[initial_view : initial_view + 5])
+                else:
+                    return
+        else: 
+            break
+        
 
 def main():
-    # while True:
-    city, month, day = get_filters()
-    df = load_data(city, month, day)
+    while True:
+        city, month, day = get_filters()
+        read_city = load_data(city, month, day)
 
-    time_stats(df)
-    # station_stats(df)
-    # trip_duration_stats(df)
-    # user_stats(df)
-
-    # restart = input('\nWould you like to restart? Enter yes or no.\n')
-    # if restart.lower() != 'yes':
-    #     break
+        time_stats(read_city)
+        station_stats(read_city)
+        trip_duration_stats(read_city)
+        user_stats(read_city, city)
+        user_view_raw_data(read_city)
+        
+        restart = input('\nWould you like to restart? Enter yes or no.\n')
+        if restart.lower() != 'yes':
+            print("THANK YOU. Quiting Now...")
+            break
 
 
 if __name__ == "__main__":
